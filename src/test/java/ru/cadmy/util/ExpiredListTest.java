@@ -14,6 +14,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class ExpiredListTest {
 
+    private final int timeout = 1005; //consider time to remove from ArrayList is 5 milliseconds
+
     @Test
     public void createExpiredListTest() {
         ExpiredList<String> expiredList = new ExpiredList<>();
@@ -30,7 +32,7 @@ public class ExpiredListTest {
         ExpiredList<String> expiredList = new ExpiredList<>(1, TimeUnit.SECONDS);
         expiredList.add("a");
         try {
-            TimeUnit.MILLISECONDS.sleep(1001);
+            TimeUnit.MILLISECONDS.sleep(timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -43,7 +45,7 @@ public class ExpiredListTest {
         expiredList.add("a");
         expiredList.remove("a");
         try {
-            TimeUnit.MILLISECONDS.sleep(1001);
+            TimeUnit.MILLISECONDS.sleep(timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -55,7 +57,7 @@ public class ExpiredListTest {
         ExpiredList<String> expiredList = new ExpiredList<>(1L);
         expiredList.add("a");
         try {
-            TimeUnit.MILLISECONDS.sleep(1001);
+            TimeUnit.MILLISECONDS.sleep(timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -67,7 +69,7 @@ public class ExpiredListTest {
         ExpiredList<String> expiredList = new ExpiredList<>(1);
         expiredList.add("a");
         try {
-            TimeUnit.MILLISECONDS.sleep(1001);
+            TimeUnit.MILLISECONDS.sleep(timeout);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,8 @@
 package ru.cadmy.util;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,29 +50,18 @@ public class ExpiredList<E> extends ArrayList<E> {
     }
 
     @Override
-    public boolean add(E e) {
-        Thread deleteElementsThread = new DeleteElementsThread(this, e);
-        deleteElementsThread.start();
-        return super.add(e);
-    }
-
-    class DeleteElementsThread extends Thread {
-        private E item;
-        private ArrayList<E> list;
-
-        DeleteElementsThread(ArrayList<E> list, E item) {
-            this.list = list;
-            this.item = item;
-        }
-
-        @Override
-        public void run() {
+    public boolean add(E item) {
+        boolean result = super.add(item);
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute( () -> {
             try {
                 TimeUnit.MILLISECONDS.sleep(timeLive);
+                this.remove(item);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            list.remove(item);
-        }
+        });
+        executorService.shutdown();
+        return result;
     }
 }
