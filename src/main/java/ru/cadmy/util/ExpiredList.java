@@ -1,6 +1,8 @@
 package ru.cadmy.util;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class ExpiredList<E> extends ArrayList<E> {
 
     private long timeLive = 3600000L;
+    Timer timer = new Timer("Timer");
 
     public ExpiredList() {
     }
@@ -54,14 +57,12 @@ public class ExpiredList<E> extends ArrayList<E> {
         boolean result = super.add(item);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute( () -> {
-            try {
-                TimeUnit.MILLISECONDS.sleep(timeLive);
+            long startTime = System.currentTimeMillis();
+            while (timeLive < 2*60*1000) {
                 this.remove(item);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                timeLive = (new Date()).getTime() - startTime;
             }
-        });
-        executorService.shutdown();
+        } );
         return result;
     }
 }
