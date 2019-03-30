@@ -2,7 +2,6 @@ package ru.cadmy.util;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 public class ExpiredList<E> extends ArrayList<E> {
 
     private long timeLive = 3600000L;
-    Timer timer = new Timer("Timer");
 
     public ExpiredList() {
     }
