@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 public class ExpiredList<E> extends ArrayList<E> {
 
     private long timeLive = 3600000L;
-    Timer timer;
-    Map<Long, E> items = new HashMap<>();
+    private Timer timer;
+    private Map<Long, E> items = new HashMap<>();
 
     public ExpiredList() {
         createTimer();
@@ -60,6 +60,7 @@ public class ExpiredList<E> extends ArrayList<E> {
                 for (Long expiringTime : items.keySet()) {
                     if (expiringTime >= System.currentTimeMillis()) {
                         ExpiredList.super.remove(items.get(expiringTime));
+                        items.remove(expiringTime);
                     }
                 }
             }
@@ -69,7 +70,6 @@ public class ExpiredList<E> extends ArrayList<E> {
     @Override
     public boolean add(E item) {
         items.put(System.currentTimeMillis() + timeLive, item);
-        super.add(item);
-        return true;
+        return super.add(item);
     }
 }
