@@ -26,19 +26,6 @@ public class ExpiredList<E> extends ArrayList<E> {
         createTimer();
     }
 
-    private void createTimer() {
-        timer = new Timer("Timer");
-        timer.schedule(new TimerTask() {
-            public void run() {
-                for (Long expiringTime : items.keySet()) {
-                    if (expiringTime >=  System.currentTimeMillis()) {
-                        ExpiredList.super.remove(items.get(expiringTime));
-                    }
-                }
-            }
-        }, 1);
-    }
-
     public ExpiredList(int timeLive, TimeUnit timeUnit) {
         switch (timeUnit) {
             case NANOSECONDS:
@@ -64,6 +51,19 @@ public class ExpiredList<E> extends ArrayList<E> {
                 break;
         }
         createTimer();
+    }
+
+    private void createTimer() {
+        timer = new Timer("Timer");
+        timer.schedule(new TimerTask() {
+            public void run() {
+                for (Long expiringTime : items.keySet()) {
+                    if (expiringTime >= System.currentTimeMillis()) {
+                        ExpiredList.super.remove(items.get(expiringTime));
+                    }
+                }
+            }
+        }, 1);
     }
 
     @Override
