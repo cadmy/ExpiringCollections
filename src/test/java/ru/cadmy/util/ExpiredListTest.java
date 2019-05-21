@@ -32,11 +32,24 @@ public class ExpiredListTest {
         ExpiredList<String> expiredList = new ExpiredList<>(1, TimeUnit.SECONDS);
         expiredList.add("a");
         try {
-            TimeUnit.MILLISECONDS.sleep(timeout);
+            TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         assertEquals(0, expiredList.size());
+    }
+
+   //TODO fix this
+    @Test
+    public void checkItemIsNotRemovedBeforeOneSecond() {
+        ExpiredList<String> expiredList = new ExpiredList<>(1, TimeUnit.SECONDS);
+        expiredList.add("a");
+        try {
+            TimeUnit.MILLISECONDS.sleep(995);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(1, expiredList.size());
     }
 
     @Test
@@ -70,6 +83,43 @@ public class ExpiredListTest {
         expiredList.add("a");
         try {
             TimeUnit.MILLISECONDS.sleep(timeout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals(0, expiredList.size());
+    }
+
+    @Test
+    public void checkMultipleItems() {
+        ExpiredList<String> expiredList = new ExpiredList<>(1, TimeUnit.SECONDS);
+        expiredList.add("a");
+        expiredList.add("b");
+        expiredList.add("c");
+        expiredList.add("d");
+        expiredList.add("e");
+        expiredList.add("f");
+        expiredList.add("g");
+        expiredList.add("h");
+        expiredList.add("i");
+        expiredList.add("j");
+        expiredList.add("k");
+        expiredList.add("l");
+        expiredList.add("m");
+        expiredList.add("n");
+        expiredList.add("o");
+        expiredList.add("p");
+        expiredList.add("q");
+        expiredList.add("r");
+        expiredList.add("s");
+        expiredList.add("t");
+        expiredList.add("u");
+        expiredList.add("v");
+        expiredList.add("w");
+        expiredList.add("x");
+        expiredList.add("y");
+        expiredList.add("z");
+        try {
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
