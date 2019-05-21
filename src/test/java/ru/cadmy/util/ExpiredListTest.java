@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class ExpiredListTest {
 
-    private final int timeout = 1005; //consider time to remove from ArrayList is 5 milliseconds
+    private final int timeout = 1000;
 
     @Test
     public void createExpiredListTest() {
