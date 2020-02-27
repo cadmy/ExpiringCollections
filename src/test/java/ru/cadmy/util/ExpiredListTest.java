@@ -39,13 +39,12 @@ public class ExpiredListTest {
         assertEquals(0, expiredList.size());
     }
 
-   //TODO fix this
     @Test
     public void checkItemIsNotRemovedBeforeOneSecond() {
         ExpiredList<String> expiredList = new ExpiredList<>(1, TimeUnit.SECONDS);
         expiredList.add("a");
         try {
-            TimeUnit.MILLISECONDS.sleep(995);
+            TimeUnit.MILLISECONDS.sleep(999);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
