@@ -4,17 +4,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by Cadmy on 04.12.2018.
  */
-public class ExpiredList<E> extends CopyOnWriteArrayList<E> {
+public class ExpiredList<E> extends ArrayList<E> {
 
     private long timeLive = 3600000000L;
-    private Map<E, Long> items = new ConcurrentHashMap<>();
+    private Map<E, Long> items = new HashMap<>();
 
     public ExpiredList() {
     }
@@ -67,6 +65,7 @@ public class ExpiredList<E> extends CopyOnWriteArrayList<E> {
     public E get(int index) {
         long now = getNow();
         if (now > items.get(this.get(index))) {
+            super.remove(index);
             return get(index-1);
         } else {
             return super.get(index);
